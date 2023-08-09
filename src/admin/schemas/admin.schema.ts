@@ -23,10 +23,10 @@ export class Admin {
   @Prop()
   hashed_token: string;
 
-  @Prop()
+  @Prop({ default: true })
   is_active: string;
 
-  @Prop()
+  @Prop({ default: false })
   is_creator: boolean;
 
   @Prop()
