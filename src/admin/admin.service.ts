@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -67,6 +71,7 @@ export class AdminService {
 
   findOne(id: string) {
     const admin = this.adminModel.findById(id);
+    console.log(admin)
     return admin;
   }
 
@@ -74,16 +79,15 @@ export class AdminService {
     const updateAdmin = await this.adminModel.findByIdAndUpdate(
       id,
       updateAdminDto,
-      { new: true }
+      { new: true },
     );
-  
+
     if (updateAdmin === null || updateAdmin === undefined) {
       throw new NotFoundException(`Admin #${id} not found`);
     }
-  
+
     return updateAdmin;
   }
-  
 
   async remove(id: string) {
     return this.adminModel.findByIdAndDelete(id);

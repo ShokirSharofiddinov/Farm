@@ -31,6 +31,9 @@ export class Admin {
 
   @Prop()
   description: string;
+
+  @Prop()
+  active_link: string
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);
