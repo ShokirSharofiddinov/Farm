@@ -5,6 +5,16 @@ import { AdminModule } from './admin/admin.module';
 import { AnimalTypeModule } from './animal_type/animal_type.module';
 import { WorkersModule } from './workers/workers.module';
 import { SpecialtyModule } from './specialty/specialty.module';
+import { VaccineModule } from './vaccine/vaccine.module';
+import { AnimalModule } from './animal/animal.module';
+import { RecordOfIlnessModule } from './record-of-ilness/record-of-ilness.module';
+import { MilkProductionModule } from './milk-production/milk-production.module';
+import { FiberProductionModule } from './fiber-production/fiber-production.module';
+import { MeatProductionModule } from './meat_production/meat-production.module';
+import { FeedingModule } from './feeding/feeding.module';
+import { RecordsOfFeedingModule } from './records-of-feeding/records-of-feeding.module';
+import { BlockModule } from './block/block.module';
+import { InfoModule } from './info/info.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
@@ -12,7 +22,17 @@ import { SpecialtyModule } from './specialty/specialty.module';
   AdminModule,
   AnimalTypeModule,
   WorkersModule,
-  SpecialtyModule
+  SpecialtyModule,
+  VaccineModule,
+  AnimalModule,
+  RecordOfIlnessModule,
+  MilkProductionModule,
+  FiberProductionModule,
+  MeatProductionModule,
+  FeedingModule,
+  RecordsOfFeedingModule,
+  BlockModule,
+  InfoModule
 ],
   controllers: [],
   providers: [],

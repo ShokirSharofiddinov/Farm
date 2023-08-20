@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAnimalTypeDto } from './dto/create-animal_type.dto';
 import { UpdateAnimalTypeDto } from './dto/update-animal_type.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { AnimalType } from './schemas/animal_type.schema';
+import { Model } from 'mongoose';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AnimalTypeService {
-  create(createAnimalTypeDto: CreateAnimalTypeDto) {
-    return 'This action adds a new animalType';
+  constructor(
+    @InjectModel(AnimalType.name) private animalTypeModel: Model<AnimalType>,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async create(createAnimalTypeDto: CreateAnimalTypeDto) {
+    const createdAnimalType = await new this.animalTypeModel(createAnimalTypeDto).save();
+
+    const updatedAdmin = await this.animalTypeModel.findByIdAndUpdate(
+      createdAnimalType._id,
+      { new: true },
+    );
+    console.log(updatedAdmin);
+    return updatedAdmin;
   }
 
   findAll() {
-    return `This action returns all animalType`;
+    const animalTypes = this.animalTypeModel.find();
+    return animalTypes;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} animalType`;
+  findOne(id: string) {
+    const animalType = this.animalTypeModel.findById(id);
+    console.log(animalType);
+    return animalType;
   }
 
-  update(id: number, updateAnimalTypeDto: UpdateAnimalTypeDto) {
-    return `This action updates a #${id} animalType`;
+  async update(id: string, updateAnimalTypeDto: UpdateAnimalTypeDto) {
+    const updateAnimalType = await this.animalTypeModel.findByIdAndUpdate(
+      id,
+      updateAnimalTypeDto,
+      { new: true },
+    );
+
+    if (updateAnimalType === null || updateAnimalType === undefined) {
+      throw new NotFoundException(`AnimalType #${id} not found`);
+    }
+
+    return updateAnimalType;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} animalType`;
+  async remove(id: string) {
+    return this.animalTypeModel.findByIdAndDelete(id);
   }
 }
